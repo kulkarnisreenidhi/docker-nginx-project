@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+
+  backend:
+    build: ./backend
+    container_name: flask-backend
+
+    volumes:
+      - app-data:/app/data
+
+    ports:
+      - "5000:5000"
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx-proxy
+
+    ports:
+      - "8080:80"
+
+    depends_on:
+      - backend
+
+volumes:
+  app-data:
