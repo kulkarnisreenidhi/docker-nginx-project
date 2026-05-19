@@ -6,6 +6,7 @@ on:
       - main
       - multi-container
       - reverse-proxy
+      - docker-volume-upgrade
 
 jobs:
   build:
