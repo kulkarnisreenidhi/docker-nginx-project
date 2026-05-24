@@ -1,4 +1,3 @@
-name: Docker CI Pipeline
 
 on:
   push:
@@ -6,15 +5,24 @@ on:
       - '**'
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v3
 
-      - name: List Files
+      - name: List Repository Files
         run: ls -R
 
       - name: Build Docker Image
         run: docker build -t my-nginx-app ./docker-nginx-project
+
+      - name: Run Docker Container
+        run: docker run -d -p 8080:80 --name test-container my-nginx-app
+
+      - name: Wait for Container Startup
+        run: sleep 5
+
+      - name: Test Application
+        run: curl http://localhost:8080
